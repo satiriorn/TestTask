@@ -23,9 +23,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void Spawner();
-	FVector GetRandomLocation();
-	float RandomFloat(float a, float b);
+	float RandomFloat(float& a, float& b);
 	TArray<AActor*> FoundActors;
+	TArray<FVector> v;
+	void UpPercent(float& value, float percentage_value);
+
 
 public:	
 	// Called every frame
@@ -42,12 +44,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Location)
 		float MaxY;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Location)
-		float MaxZ;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Location)
 		float MinZ;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Location)
+		float MaxZ;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wave)
-		int32 CountSphere;
+		uint8 CountSphere;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wave)
-		int32 Wave;
+		uint8 Wave;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wave)
+		uint8 MaxCountSphere;
 
 };
