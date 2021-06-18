@@ -12,6 +12,7 @@ ASpawnSphere::ASpawnSphere()
 	MaxX, MaxY, MaxZ, MinX, MinY, MinZ = 0.f;
 	CountSphere, Wave = 0;
 	MaxCountSphere = 15;
+	scale.Set(1, 1, 1);
 }
 
 // Called when the game starts or when spawned
@@ -25,27 +26,29 @@ void ASpawnSphere::Spawner() {
 	UWorld* const World = GetWorld();
 	if (World != nullptr)
 	{
-		FVector a = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+		FVector a = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();//get location of the player
 		for (int i = CountSphere; i <= MaxCountSphere; i++) {
 			FVector Location;
-			Location.Set(a.X + RandomFloat(MaxX, MinX), a.Y + RandomFloat(MaxY, MinY), a.Z + RandomFloat(MaxZ, MinZ));
-			v.Add(Location);
+			Location.Set(a.X + RandomFloat(MaxX, MinX), a.Y + RandomFloat(MaxY, MinY), a.Z + RandomFloat(MaxZ, MinZ));//create location sphere
+			v.Add(Location);//add location to array sphere
 			if(i>0){
 				for (int j = i; j >= 0; j--){
-					if (FVector::Distance(v[i], v[j])<80.f) {
+					if (FVector::Distance(v[i], v[j])<80.f) {//distance check
 						Location.Set(a.X + RandomFloat(MaxX, MinX), a.Y + RandomFloat(MaxY, MinY), a.Z + RandomFloat(MaxZ, MinZ));
 						v[i] = Location;
 						j = i;
 					}
 				}
 			}
-				FRotator rotation = GetActorRotation();
-				World->SpawnActor<ASpawnableSphere>(ActorToSpawn, v[i], rotation);
+			//spawn actor by the location via sphere array
+			FRotator rotation = GetActorRotation();
+			World->SpawnActor<ASpawnableSphere>(ActorToSpawn, v[i], rotation);//->SetActorScale3D(scale);;
 			
 		}
 	}
 }
 
+//randomizer function
 float ASpawnSphere::RandomFloat(float& a, float& b) {
 	float random = ((float)rand()) / (float)RAND_MAX;
 	float diff = b - a;
@@ -54,7 +57,7 @@ float ASpawnSphere::RandomFloat(float& a, float& b) {
 }
 // Called every frame
 void ASpawnSphere::UpPercent(float& value, float percentage_value) {
-	value += (value / 100 * (percentage_value));
+	value += (value / 100 * (percentage_value));//increase value by percent
 }
 void ASpawnSphere::Tick(float DeltaTime)
 {
@@ -62,9 +65,11 @@ void ASpawnSphere::Tick(float DeltaTime)
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpawnableSphere::StaticClass(), FoundActors);
 	if (FoundActors.Num() == 5) {
 		v.Empty();
+		//save the location of the sphere
 		for (int i = 0; i < FoundActors.Num(); i++) {
 			v.Add(FoundActors[i]->GetActorLocation());
 		}
+		//increase data with a new wave
 		CountSphere = v.Num();
 		Wave++;
 		float countSphere = float(CountSphere);

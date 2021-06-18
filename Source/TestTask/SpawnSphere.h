@@ -32,7 +32,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	//location sphere variable
+	//SomeActor->SetActorScale3D();
+	//sphere variable
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ScaleActor)
+		FVector scale;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Location)
 		float MinX;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActorSpawn)
@@ -47,6 +50,7 @@ public:
 		float MinZ;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Location)
 		float MaxZ;
+	//wave variable
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wave)
 		uint8 CountSphere;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wave)
