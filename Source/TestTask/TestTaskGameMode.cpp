@@ -14,4 +14,5 @@ ATestTaskGameMode::ATestTaskGameMode()
 
 	// use our custom HUD class
 	HUDClass = ATestTaskHUD::StaticClass();
+	Score = 0;
 }

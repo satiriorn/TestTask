@@ -23,8 +23,8 @@ void ASpawnableSphere::BeginPlay()
 
 //a function that triggers a hit and destroy actor(sphere)
 void ASpawnableSphere::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
-	Destroy();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("hit"));
+	Destroy();
 }
 
 // Called every frame

@@ -10,8 +10,9 @@ ASpawnSphere::ASpawnSphere()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	MaxX, MaxY, MaxZ, MinX, MinY, MinZ = 0.f;
-	CountSphere, Wave = 0;
-	MaxCountSphere = 15;
+	CountSphere, Score = 0;
+	Wave = 1;
+	MaxCountSphere, LastCountSphere = 15;
 	scale.Set(1, 1, 1);
 }
 
@@ -45,6 +46,7 @@ void ASpawnSphere::Spawner() {
 			World->SpawnActor<ASpawnableSphere>(ActorToSpawn, v[i], rotation);//->SetActorScale3D(scale);;
 			
 		}
+		LastCountSphere = v.Num();
 	}
 }
 
@@ -63,6 +65,13 @@ void ASpawnSphere::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpawnableSphere::StaticClass(), FoundActors);
+	FString TheFloatStr = FString::SanitizeFloat(LastCountSphere);
+	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, *TheFloatStr);
+	if (LastCountSphere > FoundActors.Num()) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Score"));
+		Score++;
+		LastCountSphere = FoundActors.Num();
+	}
 	if (FoundActors.Num() == 5) {
 		v.Empty();
 		//save the location of the sphere
@@ -72,14 +81,17 @@ void ASpawnSphere::Tick(float DeltaTime)
 		//increase data with a new wave
 		CountSphere = v.Num();
 		Wave++;
-		float countSphere = float(CountSphere);
-		UpPercent(countSphere, 10);
-		CountSphere = uint8(countSphere);
+		float maxcountSphere = float(MaxCountSphere);
+		UpPercent(maxcountSphere, 10);
+		MaxCountSphere = uint8(maxcountSphere);
+		LastCountSphere = uint16(MaxCountSphere);
 		UpPercent(MaxX, 5);
 		UpPercent(MaxY, 5);
 		UpPercent(MaxZ, 5);
 		Spawner();
+
 	}
 
-}
+
+}	
 

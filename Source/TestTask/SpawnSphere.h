@@ -27,7 +27,8 @@ protected:
 	TArray<AActor*> FoundActors;
 	TArray<FVector> v;
 	void UpPercent(float& value, float percentage_value);
-
+	uint16 LastCountSphere;
+	bool start = false;
 
 public:	
 	// Called every frame
@@ -55,6 +56,8 @@ public:
 		uint8 CountSphere;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wave)
 		uint8 Wave;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wave)
+		uint8 Score;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wave)
 		uint8 MaxCountSphere;
 

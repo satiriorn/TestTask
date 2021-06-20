@@ -13,6 +13,7 @@ class ATestTaskGameMode : public AGameModeBase
 
 public:
 	ATestTaskGameMode();
+	uint16 Score;
 };
 
 
