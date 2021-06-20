@@ -71,10 +71,8 @@ void ASpawnSphere::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpawnableSphere::StaticClass(), FoundActors);
-	//FString TheFloatStr = FString::SanitizeFloat(LastCountSphere);
-	//GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, *TheFloatStr);
+
 	if (LastCountSphere > FoundActors.Num()) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Score"));
 		Score++;
 		LastCountSphere = FoundActors.Num();
 	}
