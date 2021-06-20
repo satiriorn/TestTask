@@ -9,11 +9,12 @@ ASpawnSphere::ASpawnSphere()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Scene"));
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	MaxX, MaxY, MaxZ, MinX, MinY, MinZ = 0.f;
+	MaxX, MaxY, MaxZ, MinX, MinY, MinZ, ReductionStep = 0.f;
 	CountSphere, Score = 0;
 	Wave = 1;
 	MaxCountSphere, LastCountSphere = 15;
 	scale.Set(1, 1, 1);
+	MinScale.Set(0.3f, 0.3f, 0.3f);
 }
 
 // Called when the game starts or when spawned
@@ -43,7 +44,12 @@ void ASpawnSphere::Spawner() {
 			}
 			//spawn actor by the location via sphere array
 			FRotator rotation = GetActorRotation();
-			World->SpawnActor<ASpawnableSphere>(ActorToSpawn, v[i], rotation);//->SetActorScale3D(scale);;
+			if (scale != MinScale) {
+				scale.X -= ReductionStep;
+				scale.Y -= ReductionStep;
+				scale.Z -= ReductionStep;
+			}
+			World->SpawnActor<ASpawnableSphere>(ActorToSpawn, v[i], rotation)->SetActorScale3D(scale);;
 			
 		}
 		LastCountSphere = v.Num();
@@ -65,8 +71,8 @@ void ASpawnSphere::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpawnableSphere::StaticClass(), FoundActors);
-	FString TheFloatStr = FString::SanitizeFloat(LastCountSphere);
-	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, *TheFloatStr);
+	//FString TheFloatStr = FString::SanitizeFloat(LastCountSphere);
+	//GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, *TheFloatStr);
 	if (LastCountSphere > FoundActors.Num()) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Score"));
 		Score++;

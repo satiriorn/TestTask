@@ -37,6 +37,10 @@ public:
 	//sphere variable
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ScaleActor)
 		FVector scale;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ScaleActor)
+		float ReductionStep;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ScaleActor)
+		FVector MinScale;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Location)
 		float MinX;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActorSpawn)
